@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-8">
+            <div (click)="get500Error()" class="btn btn-outline-primary me-2">get 500 error</div>
+            <div (click)="get404NotFoundError()" class="btn btn-outline-success me-2">get 404 NotFound</div>
+            <div (click)="get401AuthError()" class="btn btn-outline-danger me-2">get 401 auth error</div>
+            <div (click)="get400Error()" class="btn btn-outline-warning">get 400 error</div>
+            <div (click)="get401ValidationError()" class="btn btn-outline-light">get 401 Validation error</div>
+            <ng-container *ngFor='let err of errors'>
+                <div class="text-danger">
+                    {{err}}<br>
+                </div>
+            </ng-container>
+        </div>
+
+
+    </div>
+</div>

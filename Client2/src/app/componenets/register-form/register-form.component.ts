@@ -29,8 +29,12 @@ export class RegisterFormComponent implements OnInit {
       this.router.navigateByUrl("/members");
 
     }, error => {
-      this.toast.error(error.error);
-      this.toast.error(error.error);
+      console.log(error);
+      if (error[0])
+        this.toast.error(error[0]);
+      if (error[1])
+        this.toast.error(error[1]);
+
 
     })
   }

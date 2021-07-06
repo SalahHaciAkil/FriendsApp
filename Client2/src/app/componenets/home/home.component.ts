@@ -8,7 +8,7 @@ import { User } from 'src/app/interfaces/User';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @Input() registerMode: boolean;
+  registerMode: boolean = false;
   constructor() {
   }
 

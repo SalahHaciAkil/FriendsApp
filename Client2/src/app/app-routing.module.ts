@@ -5,6 +5,9 @@ import { ListsComponent } from './componenets/members/lists/lists.component';
 import { MemberDetailsComponent } from './componenets/members/member-details/member-details.component';
 import { MemberListComponent } from './componenets/members/member-list/member-list.component';
 import { MessagesComponent } from './componenets/members/messages/messages.component';
+import { NotFoundComponent } from './componenets/not-found/not-found.component';
+import { ServerErrorComponent } from './componenets/server-error/server-error.component';
+import { TestErrorComponent } from './componenets/test-error/test-error.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -21,7 +24,10 @@ const routes: Routes = [
     ]
   }
   ,
-  { path: '**', component: HomeComponent, pathMatch: 'full' }
+  { path: 'test-error', component: TestErrorComponent },
+  { path: 'server-error', component: ServerErrorComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', component: NotFoundComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
