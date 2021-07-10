@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './componenets/nav/nav.component';
@@ -19,6 +17,13 @@ import { TestErrorComponent } from './componenets/test-error/test-error.componen
 import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 import { NotFoundComponent } from './componenets/not-found/not-found.component';
 import { ServerErrorComponent } from './componenets/server-error/server-error.component';
+import { MemberCardComponent } from './componenets/members/member-card/member-card.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { EditUserComponent } from './componenets/members/edit-user/edit-user.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BusyInterceptor } from './interceptors/busy.interceptor';
+
 
 
 @NgModule({
@@ -34,6 +39,8 @@ import { ServerErrorComponent } from './componenets/server-error/server-error.co
     TestErrorComponent,
     NotFoundComponent,
     ServerErrorComponent,
+    MemberCardComponent,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,12 +48,16 @@ import { ServerErrorComponent } from './componenets/server-error/server-error.co
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    SharedModule
+    NgxGalleryModule,
+    SharedModule,
+    NgxSpinnerModule
 
 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: BusyInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

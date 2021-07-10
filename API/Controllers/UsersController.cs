@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -48,6 +49,28 @@ namespace API.Controllers
             // return usersToReturn;
 
             return await this.userRepo.GetMemberAsync(username);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdataUser(MemberUpdateDto memberUpdateDto)
+        {
+
+            var user = await this.userRepo.GetUser(
+                this.User.FindFirst(ClaimTypes.NameIdentifier).Value
+            );
+            this.autoMapper.Map(memberUpdateDto, user);
+            this.userRepo.Update(user);
+            if (await this.userRepo.SaveChangesAsync())
+            {
+                return NoContent();
+
+            }
+            else
+            {
+                return BadRequest("no changes");
+            }
+
+
         }
     }
 }

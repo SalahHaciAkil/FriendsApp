@@ -19,6 +19,7 @@ namespace API.Controllers
 
         public AccountController(DataContext context, ITokenService tokenService)
         {
+            
             this.context = context;
             this.tokenService = tokenService;
         }
@@ -64,7 +65,6 @@ namespace API.Controllers
             byte[] userInfoPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userInfo.Password));
 
             if (!userInfoPasswordHash.SequenceEqual(user.PasswordHash)) return Unauthorized("Invalid password");
-
             return new UserDto()
             {
                 UserName = user.UserName,

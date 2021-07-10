@@ -1,0 +1,214 @@
+<div class="container member-detailt py-3" *ngIf="member">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-5 col-sm-12 member-details__card">
+            <h3 class="my-3">Your Profile</h3>
+            <div class="cards-container">
+
+                <div class="card card-one">
+                    <header>
+                        <div class="avatar">
+                            <img [src]="member.photoUrl" alt="Jhon Doe" />
+                        </div>
+                    </header>
+
+                    <h3>{{member.userName}}</h3>
+                    <div class="desc">
+                        {{member.introduction}}
+                    </div>
+                    <div class="contacts">
+                        <a href=""><i class="fa fa-plus"></i></a>
+                        <a href=""><i class="fa fa-whatsapp"></i></a>
+                        <a href=""><i class="fa fa-envelope"></i></a>
+                        <div class="clear"></div>
+                    </div>
+
+                    <footer>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-instagram"></i></a>
+                    </footer>
+                </div>
+            </div>
+
+            <div class="d-grid mt-3">
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-md-7 col-sm-12 tab">
+            <div *ngIf="form.dirty" class="alert alert-warning" role="alert">
+                <p><strong>Information: </strong>You have made changes, an unsaved changes will be lost</p>
+            </div>
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#about"
+                        type="button" role="tab" aria-controls="home" aria-selected="true">About
+                        {{member.userName}}</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#interest"
+                        type="button" role="tab" aria-controls="profile" aria-selected="false">Interests</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#photos"
+                        type="button" role="tab" aria-controls="contact" aria-selected="false">Photos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#message"
+                        type="button" role="tab" aria-controls="contact" aria-selected="false">Messages</button>
+                </li>
+            </ul>
+            <div class="tab-content mt-2" id="myTabContent ">
+                <div class="tab-pane fade show active " id="about" role="tabpanel" aria-labelledby="home-tab">
+                    <form #form="ngForm" id="updateForm" (ngSubmit)="editMember(form)">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h4>Description</h4>
+                            <button [disabled]="!form.dirty" class="btn btn-outline-primary" form="updateForm">Save
+                                Changes</button>
+
+                        </div>
+                        <textarea class="form-control mb-3" name="introduction" id="" cols="30" rows="5"
+                            [(ngModel)]="member.introduction"></textarea>
+                        <h4 class="mb-2">Looking For</h4>
+                        <textarea class="form-control mb-3" name="lookingFor" id="" cols="30"
+                            rows="5">{{member.lookingFor}}</textarea>
+                        <h4 class="mb-2">Interests</h4>
+                        <textarea class="form-control mb-3" name="interests" id="" cols="30"
+                            rows="5">{{member.interests}}</textarea>
+                        <div class="d-inline-flex  alighn-items-center mt-2">
+                            <label style="line-height: 40px;" for="city lh-lg">City: </label>
+                            <input class="form-control ms-1 me-3" type="text" name="city" id="city"
+                                [(ngModel)]="member.city">
+                            <label style="line-height: 40px;" for="country">Country: </label>
+                            <input ngModel class="form-control ms-1" type="text" name="country" id="country"
+                                [(ngModel)]="member.country">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="interest" role="tabpanel" aria-labelledby="profile-tab">
+                    {{member.interests}}
+                </div>
+                <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="contact-tab">
+                </div>
+                <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="contact-tab">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ========================== -->
+
+
+
+</div>
+
+<!-- 
+<div class="container member-detailt py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-5 col-sm-12 member-details__card">
+            <h3 class="my-3">Your Profile</h3>
+            <div class="cards-container">
+
+                <div class="card card-one">
+                    <header>
+                        <div class="avatar">
+                            <img [src]="member.photoUrl" alt="Jhon Doe" />
+                        </div>
+                    </header>
+
+                    <h3>{{member.userName}}</h3>
+                    <div class="desc">
+                        {{member.introduction}}
+                    </div>
+                    <div class="contacts">
+                        <a href=""><i class="fa fa-plus"></i></a>
+                        <a href=""><i class="fa fa-whatsapp"></i></a>
+                        <a href=""><i class="fa fa-envelope"></i></a>
+                        <div class="clear"></div>
+                    </div>
+
+                    <footer>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-instagram"></i></a>
+                    </footer>
+                </div>
+            </div>
+
+            <div class="d-grid mt-3">
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-md-7 col-sm-12 tab">
+            <div class="alert alert-warning" role="alert">
+                <p><strong>Information: </strong> Lorem ipsum dolor sit ametes quia architecto, cupiditate vel </p>
+            </div>
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#about"
+                        type="button" role="tab" aria-controls="home" aria-selected="true">About
+                        {{member.userName}}</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#interest"
+                        type="button" role="tab" aria-controls="profile" aria-selected="false">Interests</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#photos"
+                        type="button" role="tab" aria-controls="contact" aria-selected="false">Photos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#message"
+                        type="button" role="tab" aria-controls="contact" aria-selected="false">Messages</button>
+                </li>
+            </ul>
+            <div class="tab-content mt-2" id="myTabContent ">
+                <div class="tab-pane fade show active " id="about" role="tabpanel" aria-labelledby="home-tab">
+                    <form #form="ngForm" id="updateForm" (ngSubmit)="fun(form)">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h4>Description</h4>
+                            <button class="btn btn-outline-primary" form="updateForm">Save Changes</button>
+
+                        </div>
+                        <textarea class="form-control mb-3" name="description" id="" cols="30" rows="5"
+                            [(ngModel)]="member.introduction"></textarea>
+                        <h4 class="mb-2">Looking For</h4>
+                        <textarea class="form-control mb-3" name="lookingFor" id="" cols="30" rows="5"
+                            [(ngModel)]="member.lookingFor"></textarea>
+                        <h4 class="mb-2">Interests</h4>
+                        <textarea class="form-control mb-3" name="description" id="" cols="30" rows="5"
+                            [(ngModel)]="member.interests"></textarea>
+                        <div class="d-inline-flex  alighn-items-center mt-2">
+                            <label style="line-height: 40px;" for="city lh-lg">City: </label>
+                            <input ngModel class="form-control ms-1 me-3" type="text" name="city" id="city"
+                                [(ngModel)]="member.city">
+                            <label style="line-height: 40px;" for="country">Country: </label>
+                            <input ngModel class="form-control ms-1" type="text" name="country" id="country"
+                                [(ngModel)]="member.country">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="interest" role="tabpanel" aria-labelledby="profile-tab">
+                    {{member.interests}}
+                </div>
+                <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="contact-tab">
+                </div>
+                <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="contact-tab">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+ ========================== 
+
+
+
+</div> -->
