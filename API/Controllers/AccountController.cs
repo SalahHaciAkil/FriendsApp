@@ -19,7 +19,7 @@ namespace API.Controllers
 
         public AccountController(DataContext context, ITokenService tokenService)
         {
-            
+
             this.context = context;
             this.tokenService = tokenService;
         }
@@ -55,8 +55,9 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto userInfo)
         {
-            var user = await this.context.Users.SingleOrDefaultAsync(x =>
-            x.UserName.ToLower() == userInfo.UserName.ToLower());
+            var user = await this.context.Users
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x => x.UserName.ToLower() == userInfo.UserName.ToLower());
 
 
             if (user == null) { return Unauthorized("Invalid userName"); }
@@ -68,7 +69,8 @@ namespace API.Controllers
             return new UserDto()
             {
                 UserName = user.UserName,
-                Token = this.tokenService.CreateToken(user)
+                Token = this.tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
 

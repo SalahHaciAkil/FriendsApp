@@ -7,7 +7,7 @@
                 <div class="card card-one">
                     <header>
                         <div class="avatar">
-                            <img [src]="member.photoUrl" alt="Jhon Doe" />
+                            <img [src]="user.photoUrl" alt="Jhon Doe" />
                         </div>
                     </header>
 
@@ -91,6 +91,7 @@
                     {{member.interests}}
                 </div>
                 <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="contact-tab">
+                    <app-edit-photo [member] = "member"></app-edit-photo>
                 </div>
                 <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="contact-tab">
                 </div>

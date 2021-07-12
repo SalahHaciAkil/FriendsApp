@@ -35,17 +35,21 @@ namespace API.Data
             .ToListAsync();
         }
 
-        public async Task<AppUser> GetUser(string username)
+        public async Task<AppUser> GetUserAsync(string username)
         {
             return await this.context.Users.Include(p => p.Photos).SingleOrDefaultAsync(
             x => x.UserName == username
             );
         }
 
+
+
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
             return await this.context.Users.Include(p => p.Photos).ToListAsync();
         }
+
+
 
         public async Task<bool> SaveChangesAsync()
         {

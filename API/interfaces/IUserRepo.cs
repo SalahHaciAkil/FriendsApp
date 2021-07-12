@@ -7,7 +7,7 @@ namespace API.interfaces
 {
     public interface IUserRepo
     {
-        public Task<AppUser> GetUser(string username);
+        public Task<AppUser> GetUserAsync(string username);
         public Task<IEnumerable<AppUser>> GetUsersAsync();
         public Task<IEnumerable<MemberDto>> GetMembersAsync();
         public Task<MemberDto> GetMemberAsync(string userName);

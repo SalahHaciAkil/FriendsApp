@@ -23,6 +23,7 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { EditUserComponent } from './componenets/members/edit-user/edit-user.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BusyInterceptor } from './interceptors/busy.interceptor';
+import { EditPhotoComponent } from './componenets/members/edit-photo/edit-photo.component';
 
 
 
@@ -41,6 +42,7 @@ import { BusyInterceptor } from './interceptors/busy.interceptor';
     ServerErrorComponent,
     MemberCardComponent,
     EditUserComponent,
+    EditPhotoComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,10 @@
+@import "../../../../custom_style/global_variable";
+.nv-file-over{
+    transition:border .1s;
+    border: dotted 5px $primary;
+}
+
+// input[type = file]{
+//     background-color: $primary;
+//     color: white;
+// }
