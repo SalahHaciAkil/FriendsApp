@@ -130,7 +130,7 @@ namespace API.Controllers
             var user = await this.userRepo.GetUserAsync(username);
             var photoToDelete = user.Photos.FirstOrDefault(photo => photo.Id == photoId);
             if (photoToDelete.IsMain) return BadRequest("You can't delete your main photo");
-            if (photoToDelete == null) return BadRequest("An error occured");
+            if (photoToDelete is null) return BadRequest("An error occured");
 
             if (photoToDelete.PublicId != null)
             {

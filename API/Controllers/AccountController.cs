@@ -7,6 +7,7 @@ using API.DTOs;
 using API.Entities;
 using API.interfaces;
 using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,12 +17,14 @@ namespace API.Controllers
     {
         private readonly DataContext context;
         private ITokenService tokenService;
+        private readonly IMapper autoMapper;
 
-        public AccountController(DataContext context, ITokenService tokenService)
+        public AccountController(DataContext context, ITokenService tokenService, IMapper autoMapper)
         {
 
             this.context = context;
             this.tokenService = tokenService;
+            this.autoMapper = autoMapper;
         }
 
 
@@ -30,20 +33,23 @@ namespace API.Controllers
         {
             if (await this.isUserNameExist(userInfo.UserName.ToLower())) { return BadRequest("User is taken"); }
 
+            var user = this.autoMapper.Map<AppUser>(userInfo);
+
             using var hmac = new HMACSHA512();
-            var user = new AppUser()
-            {
-                UserName = userInfo.UserName.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userInfo.Password)),
-                PasswordSalt = hmac.Key
-            };
+
+                user.UserName = userInfo.UserName.ToLower();
+                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userInfo.Password));
+                user.PasswordSalt = hmac.Key;
 
             this.context.Users.Add(user);
             await this.context.SaveChangesAsync();
             return new UserDto()
             {
                 UserName = user.UserName,
-                Token = this.tokenService.CreateToken(user)
+                Token = this.tokenService.CreateToken(user),
+                PhotoUrl = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs
+
             };
         }
 

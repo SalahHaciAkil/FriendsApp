@@ -1,15 +1,40 @@
-<form #registerForm="ngForm" (ngSubmit)="register()">
+<form [formGroup]='registerForm' (ngSubmit)="!registerForm.valid || register()">
     <h2 class="text-center">Sign up</h2>
     <hr>
-    <div class="form-group">
-        <input name="userName" class="form-control" [(ngModel)]="model.userName" type="text" placeholder="username">
-        <input name="userName" class="form-control mt-1" [(ngModel)]="model.password" type="text"
-            placeholder="password">
+
+    <div class="mb-2">
+        <span class="control-label me-1">I am: </span>
+        <label class="me-2">
+            <input class="form-check-input" type="radio" value="male" formControlName="gender">_Male
+        </label>
+        <label class="">
+            <input class="form-check-input" type="radio" value="female" formControlName="gender">_Female
+        </label>
+
     </div>
 
+    <app-text-input [formControl]="registerForm.controls['username']" [type]="'text'" [label]="'Username'">
+    </app-text-input>
+    <app-text-input [formControl]="registerForm.controls['password']" [type]="'password'" [label]="'Password'">
+    </app-text-input>
+    <app-text-input [formControl]="registerForm.controls['confirmPassword']" [type]="'password'"
+        [label]="'Confirm Password'"></app-text-input>
+    <app-text-input [formControl]="registerForm.controls['country']" [type]="'text'" [label]="'country'">
+    </app-text-input>
+    <app-text-input [formControl]="registerForm.controls['city']" [type]="'text'" [label]="'city'"></app-text-input>
+    <app-text-input [formControl]="registerForm.controls['knownAs']" [type]="'text'" [label]="'knownAs'">
+    </app-text-input>
+    <app-text-input [formControl]="registerForm.controls['dateOfBirth']" [type]="'date'" [label]="'dateOfBirth'">
+    </app-text-input>
+
+
     <div class="mt-3 text-center">
-        <button type="submit" class="btn  btn-lg btn-success me-2">Register</button>
+        <button type="submit" [disabled]="!registerForm.valid" class="btn  btn-lg btn-success me-2">Register</button>
         <button (click)="cancel()" type="submit" class="btn  btn-lg btn-danger">Cancel</button>
     </div>
 
 </form>
+
+<p>form value{{registerForm?.value | json}}</p>
+<p>form status{{registerForm?.status | json}}</p>
+<p>form dirty{{registerForm?.dirty | json}}</p>

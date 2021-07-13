@@ -34,7 +34,7 @@ export class EditPhotoComponent implements OnInit {
       this.user.photoUrl = photo.url;
       this.accountService.setCurrentUserSource(this.user);
 
-      let oldMainPhoto = this.member.photos.find(photo => photo.isMain);
+      let oldMainPhoto = this.member.photos?.find(photo => photo.isMain);
       oldMainPhoto.isMain = false;
       let mainPhotoIndex = this.member.photos.indexOf(photo);
       this.member.photos[mainPhotoIndex].isMain = true;
@@ -94,7 +94,12 @@ export class EditPhotoComponent implements OnInit {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
-        const photo = JSON.parse(response);
+        const photo:Photo = JSON.parse(response);
+        if(photo.isMain){
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUserSource(this.user);
+        }
         this.member.photos.push(photo);
       }
     }

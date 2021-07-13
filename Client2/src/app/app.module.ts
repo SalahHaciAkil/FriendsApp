@@ -4,7 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './componenets/nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './componenets/home/home.component';
 import { RegisterFormComponent } from './componenets/register-form/register-form.component';
 import { MemberListComponent } from './componenets/members/member-list/member-list.component';
@@ -24,6 +24,7 @@ import { EditUserComponent } from './componenets/members/edit-user/edit-user.com
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BusyInterceptor } from './interceptors/busy.interceptor';
 import { EditPhotoComponent } from './componenets/members/edit-photo/edit-photo.component';
+import { TextInputComponent } from './form/text-input/text-input.component';
 
 
 
@@ -43,6 +44,7 @@ import { EditPhotoComponent } from './componenets/members/edit-photo/edit-photo.
     MemberCardComponent,
     EditUserComponent,
     EditPhotoComponent,
+    TextInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,9 +54,8 @@ import { EditPhotoComponent } from './componenets/members/edit-photo/edit-photo.
     BrowserAnimationsModule,
     NgxGalleryModule,
     SharedModule,
-    NgxSpinnerModule
-
-
+    NgxSpinnerModule,
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },
