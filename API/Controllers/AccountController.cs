@@ -37,9 +37,9 @@ namespace API.Controllers
 
             using var hmac = new HMACSHA512();
 
-                user.UserName = userInfo.UserName.ToLower();
-                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userInfo.Password));
-                user.PasswordSalt = hmac.Key;
+            user.UserName = userInfo.UserName.ToLower();
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userInfo.Password));
+            user.PasswordSalt = hmac.Key;
 
             this.context.Users.Add(user);
             await this.context.SaveChangesAsync();
@@ -48,7 +48,9 @@ namespace API.Controllers
                 UserName = user.UserName,
                 Token = this.tokenService.CreateToken(user),
                 PhotoUrl = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
+
 
             };
         }
@@ -76,7 +78,9 @@ namespace API.Controllers
             {
                 UserName = user.UserName,
                 Token = this.tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
         }
 

@@ -8,6 +8,7 @@ import { AccountService } from './services/account.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  title = "DatingApp";
   constructor(public accountService: AccountService) {
 
   }

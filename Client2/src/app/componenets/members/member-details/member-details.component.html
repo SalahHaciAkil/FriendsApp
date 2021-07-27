@@ -11,6 +11,11 @@
                     </header>
 
                     <h3>{{member.userName}}</h3>
+                    <div class="d text-center mb-2">
+
+                        <span>member since: {{member.lastActive | timeago}}</span>
+                    </div>
+
                     <div class="desc">
                         {{member.introduction}}
                     </div>
