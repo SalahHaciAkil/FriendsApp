@@ -95,7 +95,7 @@ namespace API.Controllers
             {
                 photo.IsMain = true;
             }
-
+            
             user.Photos.Add(photo);
             if (await this.userRepo.SaveChangesAsync())
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, this.autoMapper.Map<PhotoDto>(photo));

@@ -30,6 +30,12 @@ export class ErrorsInterceptor implements HttpInterceptor {
 
                 throw allErrors.flat();
               }
+              else if (typeof (error.error) == "object") {
+                const err = error.statusText == "OK" ? "Bad Request" : error.statusText;
+                err == error.statusText ? this.toast.error(error.statusText) :
+                  this.toast.error("Bad Request", error.status);
+
+              }
               else {
                 this.toast.error(error.error, error.status);
               }

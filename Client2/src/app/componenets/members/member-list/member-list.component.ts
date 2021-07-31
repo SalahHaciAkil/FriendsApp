@@ -20,7 +20,6 @@ export class MemberListComponent implements OnInit {
   totalPages: Array<any> = [];
   userParams: UserParams;
   GenderOptions = [{ show: "Males", value: "male" }, { show: "Females", value: "female" }];
-
   constructor(private memberService: MemberService, private accountService: AccountService) {
   }
 
@@ -51,9 +50,12 @@ export class MemberListComponent implements OnInit {
     this.memberService.userParams = this.userParams;
     if (isFromForm)
       this.userParams.pageNumber = 1
+    debugger;
     this.memberService.getMembers(this.userParams).subscribe(pagResponse => {
       this.pagination = pagResponse.pagination;
       this.members = pagResponse.result;
+      console.log(this.members[0].userName);
+
       this.totalPages = new Array(this.pagination.totalPages);
     })
   }

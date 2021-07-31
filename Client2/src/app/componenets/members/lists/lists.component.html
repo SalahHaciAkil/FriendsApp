@@ -1,1 +1,32 @@
-<p>lists works!</p>
+<div class="text-center mt-3">
+    <h2>{{predicate === 'like' ? 'Members I like' : 'Members who like me'}}</h2>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="" name="predicate">
+            <button class="btn btn-primary me-2" (click)="loadLikes('like', pageNumber, pageSize)">Members I
+                like</button>
+            <button class="btn btn-primary" (click)="loadLikes('likedBy', pageNumber, pageSize)">Members who
+                like me</button>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-2" *ngFor="let member of members">
+            <app-member-card [member]="member"></app-member-card>
+        </div>
+
+        <nav *ngIf="pagination" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><button class="page-link btn"
+                        (click)="loadLikes(predicate ,pageNumber - 1, pageSize)">Previous</button></li>
+                <li class="page-item" *ngFor="let item of totalPages ; let i = index "><button
+                        (click)="loadLikes(predicate ,i+1, pageSize)" [class.bg-primary]="pageNumber == i + 1"
+                        class="page-link btn btn-primary ">{{i + 1}}</button></li>
+                <li class="page-item"><button class="page-link btn"
+                        (click)="loadLikes(predicate , pageNumber + 1, pageSize)">Next</button></li>
+            </ul>
+        </nav>
+    </div>
+</div>

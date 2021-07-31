@@ -3,8 +3,8 @@
         <img class="member-card__image img-fluid" [src]="member.photoUrl || '../../../assets/user.png'"
             [alt]="member.knownAs">
         <div class="member-card__icons d-flex justify-content-center">
-
-            <button class="btn btn-primary me-2"> <i class="fas fa-heart"></i></button>
+            <button (click)="addLike(member)" class="btn btn-primary me-2"> <i
+                    [class]="iconClass"></i></button>
             <button routerLink='/members/{{member.userName}}' class="btn btn-primary me-2">
                 <li class="fas fa-user"></li>
             </button>

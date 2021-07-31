@@ -15,11 +15,11 @@ import { AccountService } from './account.service';
 })
 export class MemberService {
   members: Member[] = [];
-  user:User;
-  userParams:UserParams;
+  user: User;
+  userParams: UserParams;
 
-  constructor(private http: HttpClient, private accountService:AccountService) {
-    const user = this.accountService.currentUser$.pipe(take(1)).subscribe(user=>{
+  constructor(private http: HttpClient, private accountService: AccountService) {
+    const user = this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.userParams = new UserParams(this.user);
     })
@@ -34,8 +34,13 @@ export class MemberService {
     if (userFilterResult) {
       return of(userFilterResult);
     }
-    let paramss = this.getPaginationHeaders(userParams);
-    return this.getPaginationResult<Member[]>(environment.apiUrl + '/users', paramss)
+    let paramss = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    paramss = paramss.append("gender", userParams.gender);
+    paramss = paramss.append("orderedBy", userParams.orderedBy);
+    paramss = paramss.append("minAge", userParams.minAge.toString());
+    paramss = paramss.append("maxAge", userParams.maxAge.toString());
+    debugger;
+    return this.getPaginationResult<Member[]>(environment.apiUrl + 'users', paramss)
       .pipe(map((response) => {
         this.memberCache.set(Object.values(userParams).join("-"), response);
         return response;
@@ -44,13 +49,13 @@ export class MemberService {
 
   getMember(username: string): Observable<Member> {
 
-      const members = [...this.memberCache.values()].reduce((result, element)=>{
-        return result.concat(element.result)
-      },[]);
-      const member = members.find((member:Member)=> member.userName == username);
-      if(member)return of(member);
-      
-    
+    const members = [...this.memberCache.values()].reduce((result, element) => {
+      return result.concat(element.result)
+    }, []);
+    const member = members.find((member: Member) => member.userName == username);
+    if (member) return of(member);
+
+
 
     return this.http.get<Member>(environment.apiUrl + "users/" + username);
   }
@@ -73,32 +78,45 @@ export class MemberService {
   }
 
 
-  private getPaginationHeaders(userParams: UserParams) {
+  private getPaginationHeaders(pageNumber: number, pageSize: number) {
     let paramss = new HttpParams();
-    paramss = paramss.append("pageNumber", userParams.pageNumber.toString());
-    paramss = paramss.append("pageSize", userParams.pageSize.toString());
-    paramss = paramss.append("gender", userParams.gender);
-    paramss = paramss.append("orderedBy", userParams.orderedBy);
-    paramss = paramss.append("minAge", userParams.minAge.toString());
-    paramss = paramss.append("maxAge", userParams.maxAge.toString());
+    paramss = paramss.append("pageNumber", pageNumber.toString());
+    paramss = paramss.append("pageSize", pageSize.toString());
     return paramss;
 
   }
 
   getPaginationResult<T>(url: string, paramss: HttpParams) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+    debugger;
 
-    return this.http.get<T>(environment.apiUrl + "users", { observe: 'response', params: paramss })
+    return this.http.get<T>(url, { observe: 'response', params: paramss })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
           if (response.headers.get("Pagination") !== null) {
             paginatedResult.pagination = JSON.parse(response.headers.get("Pagination"));
           }
+          debugger;
           return paginatedResult;
         })
       );
+
   }
+
+  AddLike(username: string) {
+
+    return this.http.post(environment.apiUrl + "likes/" + username, {});
+  }
+
+  getUserLikes(predicate: string, pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
+    params = this.getPaginationHeaders(pageNumber, pageSize);
+    params = params.append("predicate", predicate);
+    return this.getPaginationResult<Partial<Member[]>>(environment.apiUrl + "likes", params);
+  }
+
+
 }
 
 

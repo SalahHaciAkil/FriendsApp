@@ -22,6 +22,7 @@ export class AccountService {
       map((respone: User) => {
         const user = respone;
         if (user) {
+          debugger;
           this.setCurrentUserSource(user);
         }
 

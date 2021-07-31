@@ -1,0 +1,31 @@
+@import '../../../../custom_style/global_variable';
+.pagination{
+    li{
+        button.bg-primary{
+            background-color:rgba($color: $primary, $alpha: .3) !important
+        }
+    }
+}
+
+.filter-buttons{
+    margin-top: auto;
+}
+
+.btn-group {
+    margin:0;
+    padding: 0;
+
+    .ee{
+        margin-top: auto;
+        background-color: rgba($color: $primary, $alpha: .7);
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 1px solid white;
+        transition: background-color .3s;
+
+        &:hover {
+            background-color: rgba($color: $primary, $alpha: 1.0);
+        }
+    }
+}
