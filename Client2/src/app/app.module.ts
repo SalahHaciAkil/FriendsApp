@@ -25,6 +25,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BusyInterceptor } from './interceptors/busy.interceptor';
 import { EditPhotoComponent } from './componenets/members/edit-photo/edit-photo.component';
 import { TextInputComponent } from './form/text-input/text-input.component';
+import { MemberMessageComponent } from './componenets/members/member-message/member-message.component';
 
 
 
@@ -45,6 +46,7 @@ import { TextInputComponent } from './form/text-input/text-input.component';
     EditUserComponent,
     EditPhotoComponent,
     TextInputComponent,
+    MemberMessageComponent,
   ],
   imports: [
     BrowserModule,

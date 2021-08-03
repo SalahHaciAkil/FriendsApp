@@ -1,1 +1,99 @@
-<p>messages works!</p>
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="btn-group col-4" name='container'>
+            <button class="btn btn-primary" (click)="loadMessages(pageNumber, pageSize, 'Unread')">
+                <i class="fa fa-envelope"></i> Unread
+            </button>
+            <button class="btn btn-primary" (click)="loadMessages(pageNumber, pageSize, 'Inbox')">
+                <i class="fa fa-envelope-open"></i> Inbox
+            </button>
+            <button class="btn btn-primary" (click)="loadMessages(pageNumber, pageSize, 'Outbox')">
+                <i class="fa fa-paper-plane"></i> Outbox
+            </button>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="messages?.length === 0">
+        <h3>No messages</h3>
+    </div>
+
+    <div class="row" *ngIf="messages?.length > 0">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 40%">Message</th>
+                    <th style="width: 20%">From / To</th>
+                    <th style="width: 20%">Sent / Received</th>
+                    <th style="width: 20%"></th>
+                </tr>
+            </thead>
+            <tr [hidden]="loading" *ngFor="let message of messages" routerLink='{{container === "Outbox" 
+            ? "/members/" + message.recipientUsername 
+            : "/members/" + message.senderUsername}}' class="text-dark">
+                <td class="text-dark">{{message.content}}</td>
+                <td>
+                    <div *ngIf="container === 'Outbox'">
+                        <div class="imgBx">
+                            <img class="img-circle rounded-circle img-fluid mr-2"
+                                src="{{message.reciptientPhotoUrl ||  '../../../../../../assets/user.png'}}"
+                                alt="{{message.reciptientUserName}}">
+                        </div>
+
+                        <strong class="ms-2">{{message.reciptientUserName | titlecase}}</strong>
+                    </div>
+                    <div *ngIf="container !== 'Outbox'">
+                        <div class="imgBx">
+                            <img class="img-circle rounded-circle img-fluid mr-2"
+                                src="{{message.senderPhotoUrl ||  '../../../../../../assets/user.png'}}"
+                                alt="{{message.senderUserName}}">
+                        </div>
+
+                        <strong class="ms-2 text-dark">{{message.senderUserName | titlecase}}</strong>
+                    </div>
+                </td>
+                <td class="text-dark">{{message.messageSent | timeago}}</td>
+                <td>
+                    <button (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)"
+                        class='btn btn-outline-danger'>Delete</button>
+                </td>
+            </tr>
+        </table>
+        <!-- <table class="table table-hover" style="cursor: pointer">
+            <tr>
+                <th style="width: 40%">Message</th>
+                <th style="width: 20%">From / To</th>
+                <th style="width: 20%">Sent / Received</th>
+                <th style="width: 20%"></th>
+            </tr>
+            <tr [hidden]="loading" *ngFor="let message of messages" routerLink='{{container === "Outbox" 
+                    ? "/members/" + message.recipientUsername 
+                    : "/members/" + message.senderUsername}}'>
+                <td>{{message.content}}</td>
+                <td>
+                    <div *ngIf="container === 'Outbox'">
+                        <div class="imgBx">
+                            <img class="img-circle rounded-circle img-fluid mr-2"
+                                src="{{message.reciptientPhotoUrl ||  '../../../../../../assets/user.png'}}"
+                                alt="{{message.reciptientUserName}}">
+                        </div>
+
+                        <strong class="ms-2">{{message.reciptientUserName | titlecase}}</strong>
+                    </div>
+                    <div *ngIf="container !== 'Outbox'">
+                        <div class="imgBx">
+                            <img class="img-circle rounded-circle img-fluid mr-2"
+                                src="{{message.senderPhotoUrl ||  '../../../../../../assets/user.png'}}"
+                                alt="{{message.senderUserName}}">
+                        </div>
+
+                        <strong class="ms-2">{{message.senderUserName | titlecase}}</strong>
+                    </div>
+                </td>
+                <td>{{message.messageSent | timeago}}</td>
+                <td>
+                    <button class='btn btn-outline-danger'>Delete</button>
+                </td>
+            </tr>
+        </table> -->
+    </div>
+</div>

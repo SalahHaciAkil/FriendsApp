@@ -59,6 +59,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
 
             default:
               this.toast.error("Unexpected Error")
+              debugger;
               break;
           }
         }
