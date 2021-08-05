@@ -40,7 +40,6 @@ export class MemberService {
     paramss = paramss.append("orderedBy", userParams.orderedBy);
     paramss = paramss.append("minAge", userParams.minAge.toString());
     paramss = paramss.append("maxAge", userParams.maxAge.toString());
-    debugger;
     return getPaginationResult<Member[]>(environment.apiUrl + 'users', paramss, this.http)
       .pipe(map((response) => {
         this.memberCache.set(Object.values(userParams).join("-"), response);

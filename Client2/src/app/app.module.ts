@@ -26,7 +26,12 @@ import { BusyInterceptor } from './interceptors/busy.interceptor';
 import { EditPhotoComponent } from './componenets/members/edit-photo/edit-photo.component';
 import { TextInputComponent } from './form/text-input/text-input.component';
 import { MemberMessageComponent } from './componenets/members/member-message/member-message.component';
-
+import { AdminPanaelComponent } from './componenets/admin/admin-panael/admin-panael.component';
+import { HasRoleDirective } from './directive/has-role.directive';
+import { UserMangmentComponent } from './componenets/admin/user-mangment/user-mangment.component';
+import { PhotoMangmentComponent } from './componenets/admin/photo-mangment/photo-mangment.component';
+import { EditRoleComponent } from './componenets/admin/edit-role/edit-role.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -47,6 +52,11 @@ import { MemberMessageComponent } from './componenets/members/member-message/mem
     EditPhotoComponent,
     TextInputComponent,
     MemberMessageComponent,
+    AdminPanaelComponent,
+    HasRoleDirective,
+    UserMangmentComponent,
+    PhotoMangmentComponent,
+    EditRoleComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +68,7 @@ import { MemberMessageComponent } from './componenets/members/member-message/mem
     SharedModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },

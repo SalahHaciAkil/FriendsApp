@@ -29,14 +29,14 @@ namespace API.Controllers
             this.autoMapper = autoMapper;
             this.photoService = photoService;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
             var username = this.User.getUserName();
             userParams.CurrentUserName = username;
-            userParams.Gender = userParams.Gender;
-            
+            userParams.Gender = userParams.Gender != null ? userParams.Gender : "female";
+
             var users = await this.userRepo.GetMembersAsync(userParams);
             Response.AddPaginationHeaders(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             return Ok(users);
@@ -44,7 +44,7 @@ namespace API.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUserAsync(string username)
         {
@@ -95,7 +95,7 @@ namespace API.Controllers
             {
                 photo.IsMain = true;
             }
-            
+
             user.Photos.Add(photo);
             if (await this.userRepo.SaveChangesAsync())
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, this.autoMapper.Map<PhotoDto>(photo));

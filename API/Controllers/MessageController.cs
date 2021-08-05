@@ -83,8 +83,10 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteMessage(int id)
         {
             var message = await this.messageRepo.GetMessageAsync(id);
-            var currentUserName = User.getUserName();
 
+            var currentUserName = User.getUserName();
+            if (message.SenderUserName != currentUserName && message.ReciptientUserName != currentUserName)
+                return Unauthorized();
             if (message != null)
             {
                 if (message.SenderUserName == currentUserName) message.SenderDeleted = true;
