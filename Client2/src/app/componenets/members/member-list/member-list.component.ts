@@ -34,14 +34,12 @@ export class MemberListComponent implements OnInit {
   }
 
   resetUserParams() {
-    debugger;
     this.userParams = new UserParams(this.user);
     this.loadMembers(true);
   }
 
   onOrderedByAction(orderedBy: string) {
     this.userParams.orderedBy = orderedBy;
-    debugger;
     this.loadMembers(false);
 
   }
@@ -50,7 +48,6 @@ export class MemberListComponent implements OnInit {
     this.memberService.userParams = this.userParams;
     if (isFromForm)
       this.userParams.pageNumber = 1
-    debugger;
     this.memberService.getMembers(this.userParams).subscribe(pagResponse => {
       this.pagination = pagResponse.pagination;
       this.members = pagResponse.result;

@@ -42,3 +42,18 @@
         transition: .3s;
     }
 }
+
+
+@keyframes fa-blink {
+    0%{
+        opacity: 20%;
+    }
+    100%{
+        opacity: 100%;
+    }
+
+}
+.is-online{
+    color: green;
+    animation: fa-blink 1.5s linear infinite;
+}

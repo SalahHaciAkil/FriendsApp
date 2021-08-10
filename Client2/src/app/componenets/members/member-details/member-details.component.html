@@ -12,8 +12,10 @@
 
                     <h3>{{member.userName}}</h3>
                     <div class="d text-center mb-2">
-
-                        <span>member since: {{member.lastActive | timeago}}</span>
+                        <div *ngIf="(presence.onlineUsers$ | async).includes(member.userName)">
+                            <span class="text-success">user is online</span><span class="circle"></span>
+                        </div>
+                        <span>Last Active: {{member.lastActive | timeago}}</span>
                     </div>
 
                     <div class="desc">
@@ -40,22 +42,22 @@
         <div class="col-lg-8 col-md-7 col-sm-12 tab">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" [class.active]="activeTab == 1" id="home-tab" data-bs-toggle="tab"
+                    <button (click)="setTab('else')" class="nav-link" [class.active]="activeTab == 1" id="home-tab" data-bs-toggle="tab"
                         data-bs-target="#about" type="button" role="tab" aria-controls="home" aria-selected="true">About
                         {{member.userName}}</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" [class.active]="activeTab == 2" id="profile-tab" data-bs-toggle="tab"
+                    <button (click)="setTab('else')"  class="nav-link" [class.active]="activeTab == 2" id="profile-tab" data-bs-toggle="tab"
                         data-bs-target="#interest" type="button" role="tab" aria-controls="profile"
                         aria-selected="false">Interests</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" [class.active]="activeTab == 3" id="contact-tab" data-bs-toggle="tab"
+                    <button (click)="setTab('else')" class="nav-link" [class.active]="activeTab == 3" id="contact-tab" data-bs-toggle="tab"
                         data-bs-target="#photos" type="button" role="tab" aria-controls="contact"
                         aria-selected="false">Photos</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button (click)="messageBool = true" class="nav-link" [class.active]="activeTab == 4"
+                    <button (click)="setTab('messages')" class="nav-link" [class.active]="activeTab == 4"
                         id="message-tab" data-bs-toggle="tab" data-bs-target="#message" type="button" role="tab"
                         aria-controls="message" aria-selected="false">Messages</button>
                 </li>

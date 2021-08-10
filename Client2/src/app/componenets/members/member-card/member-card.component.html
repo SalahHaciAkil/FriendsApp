@@ -15,7 +15,10 @@
     </div>
 
     <div class="member-card__text text-center mt-2">
-        <h6 class=""><i class="fas fa-user me-2"></i>{{member.knownAs}}, {{member.age}}</h6>
+        <h6> <span [class.is-online]="(presence.onlineUsers$ | async).includes(member.userName)">
+                <i class="fas fa-user me-2"></i>
+            </span>
+            {{member.knownAs}}, {{member.age}}</h6>
         <p class="lh-lg fw-light">
             {{member.city}}
         </p>

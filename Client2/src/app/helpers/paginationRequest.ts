@@ -19,7 +19,6 @@ export function getPaginationResult<T>(url: string, paramss: HttpParams, http: H
                 if (response.headers.get("Pagination") !== null) {
                     paginatedResult.pagination = JSON.parse(response.headers.get("Pagination"));
                 }
-                debugger;
                 return paginatedResult;
             })
         );

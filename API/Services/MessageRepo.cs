@@ -24,6 +24,11 @@ namespace API.Services
             this.mapper = mapper;
         }
 
+        public async void AddGroup(Group group)
+        {
+            await this.context.Groups.AddAsync(group);
+        }
+
         public async void AddMessage(Message message)
         {
             await this.context.Messages.AddAsync(message);
@@ -34,9 +39,19 @@ namespace API.Services
             this.context.Messages.Remove(message);
         }
 
+        public async Task<Connection> GetConnection(string connectionId)
+        {
+            return await this.context.Connections.FindAsync(connectionId);
+        }
+
         public async Task<Message> GetMessageAsync(int id)
         {
             return await this.context.Messages.FindAsync(id);
+        }
+
+        public async Task<Group> GetMessageGroup(string groupName)
+        {
+            return await this.context.Groups.Include(x => x.Connections).FirstOrDefaultAsync(x => x.Name == groupName);
         }
 
         public async Task<PagedList<MessageDto>> GetMessagesForUserAsync(MessageParams messageParams)
@@ -74,7 +89,7 @@ namespace API.Services
 
                 foreach (var message in recepientMessages)
                 {
-                    message.DateRead = DateTime.Now;
+                    message.DateRead = DateTime.UtcNow;
                 }
 
 
@@ -85,6 +100,13 @@ namespace API.Services
 
 
 
+        }
+
+        public void RemoveConnection(Connection connection)
+        {
+            this.context.Connections.Remove(connection);
+            // var c = await this.context.Connections.Where(x => x.UserName == connection.UserName).ToListAsync();
+            // this.context.Connections.RemoveRange(c);
         }
 
         public async Task<bool> saveAllAsync()
