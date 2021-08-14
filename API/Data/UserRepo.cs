@@ -16,10 +16,18 @@ namespace API.Data
     {
         private readonly DataContext context;
         private readonly IMapper mapper;
+
         public UserRepo(DataContext context, IMapper mapper)
         {
             this.mapper = mapper;
             this.context = context;
+        }
+
+        public async Task<string> GetUserGender(string userName)
+        {
+            return await this.context.Users.Where(u => u.UserName == userName)
+            .Select(u => u.Gender)
+            .FirstOrDefaultAsync();
         }
 
         public async Task<MemberDto> GetMemberAsync(string userName)
@@ -32,6 +40,8 @@ namespace API.Data
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
+
+
             var query = this.context.Users.AsQueryable();
             query = query.Where(u => u.UserName != userParams.CurrentUserName);
             query = query.Where(u => u.Gender == userParams.Gender);
@@ -66,13 +76,6 @@ namespace API.Data
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
             return await this.context.Users.Include(p => p.Photos).ToListAsync();
-        }
-
-
-
-        public async Task<bool> SaveChangesAsync()
-        {
-            return await this.context.SaveChangesAsync() > 0;
         }
 
         public void Update(AppUser user)

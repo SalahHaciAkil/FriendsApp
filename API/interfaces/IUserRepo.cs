@@ -15,8 +15,9 @@ namespace API.interfaces
         public Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
         public Task<MemberDto> GetMemberAsync(string userName);
         
-        public  Task<bool> SaveChangesAsync();
 
         public void Update(AppUser user);
+
+        public Task<string> GetUserGender(string userName);
     }
 }

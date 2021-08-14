@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-test-error',
@@ -8,8 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestErrorComponent implements OnInit {
 
-  baseUrl: string = "https://localhost:5001/api/buggy";
-  baseUrl2: string = "https://localhost:5001/api/account/register";
+  baseUrl: string = environment.apiUrl;
   model: any;
   errors: Array<string> = [];
   constructor(private http: HttpClient) { }
@@ -18,7 +19,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get500Error() {
-    this.http.get(this.baseUrl + "/server-error").subscribe(data => {
+    this.http.get(this.baseUrl + "buggy/server-error").subscribe(data => {
 
     }, error => {
       console.log(error);
@@ -28,7 +29,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get401AuthError() {
-    this.http.get(this.baseUrl + "/auth").subscribe(data => {
+    this.http.get(this.baseUrl + "buggy/auth").subscribe(data => {
 
     }, error => {
       console.log(error);
@@ -38,7 +39,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get404NotFoundError() {
-    this.http.get(this.baseUrl + "/not-found").subscribe(data => {
+    this.http.get(this.baseUrl + "buggy/not-found").subscribe(data => {
 
     }, error => {
       console.log(error);
@@ -48,7 +49,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get400Error() {
-    this.http.get(this.baseUrl + "/bad-request").subscribe(data => {
+    this.http.get(this.baseUrl + "buggy/bad-request").subscribe(data => {
 
     }, error => {
       console.log(error);
@@ -58,7 +59,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get401ValidationError() {
-    this.http.post(this.baseUrl2, {}).subscribe(data => {
+    this.http.post(this.baseUrl + "account/register", {}).subscribe(data => {
 
     }, error => {
       this.errors = error

@@ -22,6 +22,7 @@
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@kolkov/ngx-gallery": "^1.2.3",
     "@microsoft/signalr": "^5.0.8",
+    "@sweetalert2/ngx-sweetalert2": "^10.0.0",
     "bootstrap": "^5.0.2",
     "bootswatch": "^5.0.2",
     "font-awesome": "^4.7.0",
@@ -31,6 +32,7 @@
     "ngx-timeago": "^2.0.0",
     "ngx-toastr": "^14.0.0",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^11.1.2",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
   },

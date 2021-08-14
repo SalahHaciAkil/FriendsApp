@@ -29,6 +29,7 @@ namespace API.Services
             await this.context.Groups.AddAsync(group);
         }
 
+
         public async void AddMessage(Message message)
         {
             await this.context.Messages.AddAsync(message);
@@ -57,6 +58,7 @@ namespace API.Services
         public async Task<PagedList<MessageDto>> GetMessagesForUserAsync(MessageParams messageParams)
         {
             var query = this.context.Messages.OrderByDescending(u => u.MessageSent)
+            .ProjectTo<MessageDto>(this.mapper.ConfigurationProvider)
             .AsQueryable();
 
             query = messageParams.Container switch
@@ -66,8 +68,7 @@ namespace API.Services
                 "Outbox" => query.Where(u => u.SenderUserName == messageParams.UserName && u.SenderDeleted == false),
                 _ => query.Where(u => u.ReciptientUserName == messageParams.UserName && u.ReciptientDeleted == false && u.DateRead == null)
             };
-            var messages = query.ProjectTo<MessageDto>(this.mapper.ConfigurationProvider);
-            return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+            return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
         }
 
         public async Task<IEnumerable<MessageDto>> GetMessagesThreadAsync(string currentUserName, string recepientUserName)
@@ -80,6 +81,7 @@ namespace API.Services
             || x.SenderUserName == recepientUserName &&
              x.ReciptientUserName == currentUserName && x.ReciptientDeleted == false))
              .OrderBy(m => m.MessageSent)
+             .ProjectTo<MessageDto>(this.mapper.ConfigurationProvider)
              .ToListAsync();
 
 
@@ -96,8 +98,7 @@ namespace API.Services
             }
 
 
-            return this.mapper.Map<IEnumerable<MessageDto>>(messages);
-
+            return messages;
 
 
         }
@@ -107,11 +108,6 @@ namespace API.Services
             this.context.Connections.Remove(connection);
             // var c = await this.context.Connections.Where(x => x.UserName == connection.UserName).ToListAsync();
             // this.context.Connections.RemoveRange(c);
-        }
-
-        public async Task<bool> saveAllAsync()
-        {
-            return await this.context.SaveChangesAsync() > 0;
         }
     }
 }

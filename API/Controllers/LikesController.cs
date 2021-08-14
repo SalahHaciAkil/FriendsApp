@@ -13,12 +13,11 @@ namespace API.Controllers
     [Authorize]
     public class LikesController : BaseApiController
     {
-        private readonly IUserRepo userRepo;
-        private readonly ILikesRepo likesRepo;
-        public LikesController(IUserRepo userRepo, ILikesRepo likesRepo)
+        private readonly IUnitOfWork unitOfWork;
+        public LikesController(IUnitOfWork unitOfWork)
         {
-            this.likesRepo = likesRepo;
-            this.userRepo = userRepo;
+            this.unitOfWork = unitOfWork;
+
         }
 
 
@@ -26,13 +25,13 @@ namespace API.Controllers
         public async Task<ActionResult> addLike(string username)
         {
             var userId = User.getUserId();
-            var likedUser = await this.userRepo.GetUserAsync(username);
+            var likedUser = await this.unitOfWork.UserRepo.GetUserAsync(username);
             if (likedUser is null) return NotFound("No user with username " + username);
 
-            var user = await this.likesRepo.GetUserWithLikesAsync(userId);
+            var user = await this.unitOfWork.LikeRepo.GetUserWithLikesAsync(userId);
             if (username == user.UserName) return BadRequest("You cannot like yourself");
 
-            var isAlreadyExisit = await this.likesRepo.GetUserLikeAsync(userId, likedUser.Id);
+            var isAlreadyExisit = await this.unitOfWork.LikeRepo.GetUserLikeAsync(userId, likedUser.Id);
             if (isAlreadyExisit != null) return BadRequest("You already liked this user");
 
             user.LikedUsers.Add(new UserLike
@@ -41,19 +40,19 @@ namespace API.Controllers
                 LikedUserId = likedUser.Id
             });
 
-            if (await this.userRepo.SaveChangesAsync()) return Ok();
+            if (await this.unitOfWork.Complete()) return Ok();
             return BadRequest("Faild to like user");
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery]LikeParams likeParams)
+        public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery] LikeParams likeParams)
         {
             likeParams.UserId = User.getUserId();
 
-            var users = await this.likesRepo.GetUserLikesAsync(likeParams);
+            var users = await this.unitOfWork.LikeRepo.GetUserLikesAsync(likeParams);
             Response.AddPaginationHeaders(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
-            return Ok(users);            
+            return Ok(users);
         }
     }
 }

@@ -32,6 +32,7 @@ import { UserMangmentComponent } from './componenets/admin/user-mangment/user-ma
 import { PhotoMangmentComponent } from './componenets/admin/photo-mangment/photo-mangment.component';
 import { EditRoleComponent } from './componenets/admin/edit-role/edit-role.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -69,6 +70,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     NgxSpinnerModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
+    // SweetAlert2Module,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },

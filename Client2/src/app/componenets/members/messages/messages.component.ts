@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Message } from 'src/app/interfaces/Message';
 import { Pagination } from 'src/app/interfaces/models/Paginations';
 import { MessageService } from 'src/app/services/message.service';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'app-messages',
@@ -33,13 +34,26 @@ export class MessagesComponent implements OnInit {
     })
   }
 
-  deleteMessage(id: number) {
-    this.messageService.deleteMessage(id).subscribe(() => {
 
-      this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
+
+  deleteMessage(id: number) {
+    Swal.fire({
+      title: `Are you sure you want to delete the message?`,
+      showDenyButton: true,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.messageService.deleteMessage(id).subscribe(() => {
+          this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
+          Swal.fire('Deleted!', '', 'success')
+        })
+      } else if (result.isDenied) {
+        // Swal.fire('Changes are not saved', '', 'info')
+      }
     })
-    console.log(12);
-    debugger;
+
   }
 
 

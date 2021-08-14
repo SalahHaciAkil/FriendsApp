@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { MemberService } from 'src/app/services/member.service';
 import { MessageService } from 'src/app/services/message.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-member-message',
   templateUrl: './member-message.component.html',
   styleUrls: ['./member-message.component.scss']
@@ -45,7 +46,7 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
     //   this.messages = messages;
     // })
     debugger;
-    if (!this.messageService.isThereHubConnection()){
+    if (!this.messageService.isThereHubConnection()) {
       debugger;
       this.messageService.createHubConnetion(this.user, this.username);
 

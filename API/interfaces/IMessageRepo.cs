@@ -25,7 +25,6 @@ namespace API.interfaces
         Task<PagedList<MessageDto>> GetMessagesForUserAsync(MessageParams messageParams);
         Task<IEnumerable<MessageDto>> GetMessagesThreadAsync(string senderUserName, string recepientUserName);
 
-        Task<bool> saveAllAsync();
 
 
     }
