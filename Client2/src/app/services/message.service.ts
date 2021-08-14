@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { getPaginationHeaders, getPaginationResult } from '../helpers/paginationRequest';
 import { Message } from '../interfaces/Message';
 import { User } from '../interfaces/User';
+import { BusyService } from './busy.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,11 @@ export class MessageService {
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private busyService: BusyService) { }
 
 
   createHubConnetion(user: User, otherUser: string) {
-    debugger;
+    this.busyService.play();
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + `message?user=${otherUser}`, {
         accessTokenFactory: () => user.token
@@ -32,15 +33,17 @@ export class MessageService {
       .build();
 
 
-    this.hubConnection.start().catch(error => console.log(error));
+    this.hubConnection.start().catch(error => console.log(error)).finally(() => {
+      this.busyService.idle();
+    });
 
 
     this.hubConnection.on("ReceiveMessageThread", messages => {
       this.messageThreadSource.next(messages)
     })
 
-    this.hubConnection.on("NewMessage", message=>{
-      this.messageThread$.pipe(take(1)).subscribe(messages =>{
+    this.hubConnection.on("NewMessage", message => {
+      this.messageThread$.pipe(take(1)).subscribe(messages => {
         // messages.push(message);
         this.messageThreadSource.next([...messages, message])
         // this.messageThreadSource.next(messages);
@@ -50,13 +53,17 @@ export class MessageService {
   }
 
   stopHubConnection() {
-    if (this.hubConnection)
+    if (this.hubConnection) {
+      this.messageThreadSource.next([]);
       this.hubConnection.stop().catch(error => console.log(error));
+
+
+    }
 
   }
 
-  isThereHubConnection(){
-    if(this.hubConnection) return true;
+  isThereHubConnection() {
+    if (this.hubConnection) return true;
     return false;
   }
   getMessages(pageNumber: number, pageSize: number, container: string) {
@@ -73,8 +80,8 @@ export class MessageService {
 
   async sendMessage(userName: string, content: string) { //we guratee we use here promise dut to async
     return this.hubConnection.invoke("SendMessage", { reciptientUserName: userName, content })
-    .catch(error => console.log(error)
-    );
+      .catch(error => console.log(error)
+      );
   }
 
   deleteMessage(id: number) {

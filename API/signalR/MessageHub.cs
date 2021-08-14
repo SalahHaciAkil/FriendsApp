@@ -38,9 +38,11 @@ namespace API.signalR
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             var messages = await this.unitOfWork.messageRepo.GetMessagesThreadAsync(userName, otherUser);
 
-            if (this.unitOfWork.HasChanges()) await this.unitOfWork.Complete();
+            if (this.unitOfWork.HasChanges())
+                await this.unitOfWork.Complete();
 
             await Clients.Groups(groupName).SendAsync("ReceiveMessageThread", messages);
+
 
 
 
