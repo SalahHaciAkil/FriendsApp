@@ -38,9 +38,11 @@ namespace API.signalR
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             var messages = await this.unitOfWork.messageRepo.GetMessagesThreadAsync(userName, otherUser);
 
-            if (this.unitOfWork.HasChanges()) await this.unitOfWork.Complete();
+            if (this.unitOfWork.HasChanges())
+                await this.unitOfWork.Complete();
 
             await Clients.Groups(groupName).SendAsync("ReceiveMessageThread", messages);
+
 
 
 
@@ -123,7 +125,9 @@ namespace API.signalR
             this.unitOfWork.messageRepo.AddMessage(message);
             if (await this.unitOfWork.Complete())
             {
-                await Clients.Groups(groupName).SendAsync("NewMessage", this.mapper.Map<MessageDto>(message));
+                var groupp = Clients.Groups(groupName);
+
+                await groupp.SendAsync("NewMessage", this.mapper.Map<MessageDto>(message));
             }
         }
 

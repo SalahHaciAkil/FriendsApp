@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Helpers;
 using API.interfaces;
 using AutoMapper;
@@ -81,24 +82,12 @@ namespace API.Services
             || x.SenderUserName == recepientUserName &&
              x.ReciptientUserName == currentUserName && x.ReciptientDeleted == false))
              .OrderBy(m => m.MessageSent)
-             .ProjectTo<MessageDto>(this.mapper.ConfigurationProvider)
-             .ToListAsync();
+             .MarkRead(currentUserName)
+            .ToListAsync();
+
+            return this.mapper.Map<MessageDto[]>(messages);
 
 
-            var recepientMessages = messages.Where(x => x.DateRead == null && x.ReciptientUserName == currentUserName);
-            if (recepientMessages.Any())
-            {
-
-                foreach (var message in recepientMessages)
-                {
-                    message.DateRead = DateTime.UtcNow;
-                }
-
-
-            }
-
-
-            return messages;
 
 
         }
@@ -106,8 +95,7 @@ namespace API.Services
         public void RemoveConnection(Connection connection)
         {
             this.context.Connections.Remove(connection);
-            // var c = await this.context.Connections.Where(x => x.UserName == connection.UserName).ToListAsync();
-            // this.context.Connections.RemoveRange(c);
+
         }
     }
 }
