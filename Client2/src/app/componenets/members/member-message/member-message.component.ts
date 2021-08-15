@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -15,9 +15,14 @@ import { MessageService } from 'src/app/services/message.service';
   templateUrl: './member-message.component.html',
   styleUrls: ['./member-message.component.scss']
 })
-export class MemberMessageComponent implements OnInit, OnDestroy {
+export class MemberMessageComponent implements OnInit, AfterViewChecked {
   messages: Message[]
+
   @ViewChild("messageForm") messageForm: NgForm;
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  @ViewChildren('messages') message: QueryList<any>;
+
+
   @Input() username: string;
   user: User;
   messageContent: string;
@@ -29,16 +34,23 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
       this.user = user;
     })
   }
-  ngOnDestroy(): void {
-    debugger
-    console.log("ss");
-
-  }
 
   ngOnInit(): void {
-    debugger;
     this.getMessagesThread();
+
   }
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+    this.message.changes.subscribe(this.scrollToBottom);
+  }
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
+
+  }
+
+
 
 
   getMessagesThread() {

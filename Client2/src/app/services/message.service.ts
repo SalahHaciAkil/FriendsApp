@@ -39,14 +39,17 @@ export class MessageService {
 
 
     this.hubConnection.on("ReceiveMessageThread", messages => {
+      debugger;
       this.messageThreadSource.next(messages)
     })
 
     this.hubConnection.on("NewMessage", message => {
+      debugger;
+
       this.messageThread$.pipe(take(1)).subscribe(messages => {
-        // messages.push(message);
+        debugger;
         this.messageThreadSource.next([...messages, message])
-        // this.messageThreadSource.next(messages);
+        debugger;
       })
     })
 

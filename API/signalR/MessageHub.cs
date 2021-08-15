@@ -125,7 +125,9 @@ namespace API.signalR
             this.unitOfWork.messageRepo.AddMessage(message);
             if (await this.unitOfWork.Complete())
             {
-                await Clients.Groups(groupName).SendAsync("NewMessage", this.mapper.Map<MessageDto>(message));
+                var groupp = Clients.Groups(groupName);
+
+                await groupp.SendAsync("NewMessage", this.mapper.Map<MessageDto>(message));
             }
         }
 

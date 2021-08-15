@@ -9,13 +9,16 @@
                             <img [src]="member.photoUrl" alt="Jhon Doe" />
                         </div>
                     </header>
-
                     <h3>{{member.userName}}</h3>
                     <div class="d text-center mb-2">
-                        <div *ngIf="(presence.onlineUsers$ | async).includes(member.userName)">
+                        <div *ngIf="(presence.onlineUsers$ | async).includes(member.userName);else lastActive">
                             <span class="text-success">user is online</span><span class="circle"></span>
                         </div>
-                        <span>Last Active: {{member.lastActive | timeago}}</span>
+                        <ng-template #lastActive>
+                            <span>Last Active: {{member.lastActive | timeago}}</span>
+
+                        </ng-template>
+
                     </div>
 
                     <div class="desc">
@@ -42,18 +45,19 @@
         <div class="col-lg-8 col-md-7 col-sm-12 tab">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button (click)="setTab('else')" class="nav-link" [class.active]="activeTab == 1" id="home-tab" data-bs-toggle="tab"
-                        data-bs-target="#about" type="button" role="tab" aria-controls="home" aria-selected="true">About
+                    <button (click)="setTab('else')" class="nav-link" [class.active]="activeTab == 1" id="home-tab"
+                        data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="home"
+                        aria-selected="true">About
                         {{member.userName}}</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button (click)="setTab('else')"  class="nav-link" [class.active]="activeTab == 2" id="profile-tab" data-bs-toggle="tab"
-                        data-bs-target="#interest" type="button" role="tab" aria-controls="profile"
+                    <button (click)="setTab('else')" class="nav-link" [class.active]="activeTab == 2" id="profile-tab"
+                        data-bs-toggle="tab" data-bs-target="#interest" type="button" role="tab" aria-controls="profile"
                         aria-selected="false">Interests</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button (click)="setTab('else')" class="nav-link" [class.active]="activeTab == 3" id="contact-tab" data-bs-toggle="tab"
-                        data-bs-target="#photos" type="button" role="tab" aria-controls="contact"
+                    <button (click)="setTab('else')" class="nav-link" [class.active]="activeTab == 3" id="contact-tab"
+                        data-bs-toggle="tab" data-bs-target="#photos" type="button" role="tab" aria-controls="contact"
                         aria-selected="false">Photos</button>
                 </li>
                 <li class="nav-item" role="presentation">

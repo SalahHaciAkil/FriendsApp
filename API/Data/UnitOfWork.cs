@@ -28,8 +28,10 @@ namespace API.Data
 
         public bool HasChanges()
         {
-            return this.context.ChangeTracker.HasChanges();
+            this.context.ChangeTracker.DetectChanges();
+            var changes = this.context.ChangeTracker.HasChanges();
 
+            return changes;
         }
     }
 }
