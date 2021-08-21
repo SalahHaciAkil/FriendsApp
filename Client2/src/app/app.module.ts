@@ -33,6 +33,8 @@ import { PhotoMangmentComponent } from './componenets/admin/photo-mangment/photo
 import { EditRoleComponent } from './componenets/admin/edit-role/edit-role.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 
 @NgModule({
@@ -72,6 +74,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     ModalModule.forRoot(),
     // SweetAlert2Module,
     SweetAlert2Module.forRoot(),
+    BsDatepickerModule.forRoot(),
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },

@@ -11,6 +11,7 @@ namespace API.Helpers
     {
         public AutoMapperProfile()
         {
+
             CreateMap<AppUser, MemberDto>()
             .ForMember(des => des.PhotoUrl,
              opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
@@ -24,6 +25,7 @@ namespace API.Helpers
             .ForMember(des => des.ReciptientPhotoUrl,
             opt => opt.MapFrom(src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
             CreateMap<MessageDto, Message>();
+            
         }
     }
 }

@@ -18,7 +18,9 @@ export class PresenceService {
   onlineUsers$ = this.onlineUsersSource.asObservable();
 
 
-  constructor(private toaster: ToastrService, private router: Router) { }
+  constructor(private toaster: ToastrService, private router: Router) {
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
 
   createHubConnection(user: User) {

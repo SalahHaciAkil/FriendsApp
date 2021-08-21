@@ -51,12 +51,11 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark text-white" aria-labelledby="dropdownMenuButton2">
                     <li><a routerLink="/member/edit" class="dropdown-item active" href="#">Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="#" (click)="logOut()">LogOut</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    <li><a class="dropdown-item" href="#" (click)="logOut()">LogOut</a></li>
+
                 </ul>
             </div>
             <form *ngIf="(accountService.currentUser$ | async) === null" class="d-md-flex mt-lg-0 mt-sm-3"

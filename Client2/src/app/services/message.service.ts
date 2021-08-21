@@ -39,7 +39,6 @@ export class MessageService {
 
 
     this.hubConnection.on("ReceiveMessageThread", messages => {
-      debugger;
       this.messageThreadSource.next(messages)
     })
 

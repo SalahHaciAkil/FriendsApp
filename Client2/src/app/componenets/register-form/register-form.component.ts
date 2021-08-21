@@ -19,7 +19,7 @@ export class RegisterFormComponent implements OnInit {
 
 
   constructor(private accountService: AccountService, private toast: ToastrService,
-    private router: Router, private fb: FormBuilder, private memberService:MemberService) { }
+    private router: Router, private fb: FormBuilder, private memberService: MemberService) { }
 
   ngOnInit(): void {
     this.initRegisterFrom()
@@ -32,7 +32,7 @@ export class RegisterFormComponent implements OnInit {
   }
   initRegisterFrom() {
     this.registerForm = this.fb.group({
-      username: ['hello', Validators.required],
+      username: ['', Validators.required],
       gender: ['female'],
       dateOfBirth: ['', Validators.required],
       city: ['', Validators.required],
